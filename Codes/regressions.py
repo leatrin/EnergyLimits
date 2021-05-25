@@ -9,6 +9,9 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 import math as math
 
+def l2_loss(y_real, y_predicted):
+    l2_err = np.sqrt((y_real-y_predicted)**2)
+    return np.sum(l2_err)
 ######### LINEAR MODEL #######################
 def lin_fun_scalar(x, y0 = 0, r = 1): 
     return y0 + r*x
@@ -23,6 +26,9 @@ def linReg(x,y) :
     r, y0 = a, b
     return r, y0
 
+def linLoss(x,y,r,y0) : 
+    return l2_loss(y, lin_fun(x,y0,r))
+
 ######### EXPONENTIAL MODEL #######################
 
 def exp_fun_scalar(x, y0 = 0, r = 1): 
@@ -36,6 +42,9 @@ def expReg(x,y) :
     y0 = exp(b)
     r = a
     return r, y0
+
+def expLoss(x,y,r,y0) : 
+    return l2_loss(y, exp_fun(x,y0,r))
 
 
 ######### LOGISTIC MODEL #######################
@@ -154,3 +163,37 @@ def sReg(xdata, ydata, Dy=None,  bounds = [-350000, 350000]):
     G,E, A, a1, a2, a3  = popt
 
     return G,E, A, a1, a2, a3
+
+############# lin then exp ################
+def ind (x,a,b) : 
+    if x<=b and x>=a : 
+        return 1
+    else : 
+        return 0
+
+
+def lin_exp_scalar (x, a, xlim, r, y0): 
+    f= (a*(x-xlim)+ y0* math.exp(xlim*r))*ind(x, -10**10, xlim) + y0*math.exp(r*x)*ind(x, xlim, 10**10)
+    return f
+
+lin_exp = np.vectorize(lin_exp_scalar)
+
+def linExpReg (x, y, p0, bounds = [0, 90000]) :
+    """
+    Returns a, xlim, r, y0
+    """
+    popt, pcov = curve_fit(
+        f = lin_exp,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    a, xlim, r, y0 = popt
+    return a, xlim, r, y0
+
+
+
+
+
+
