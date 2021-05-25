@@ -193,7 +193,45 @@ def linExpReg (x, y, p0, bounds = [0, 90000]) :
     return a, xlim, r, y0
 
 
+####### lin then pow #########
+def lin_pow_scalar(x, a, xlim, r, y0) :
+    b= y0*(xlim**r) - a *xlim 
+    return (a*x+b)*ind(x, -10**10, xlim) + y0*(x**r)*ind(x, xlim, 10**10)
 
+lin_pow =np.vectorize(lin_pow_scalar)
 
+def linPowReg (x, y, p0, bounds = [0, 90000]) :
+    """
+    Returns a, xlim, r, y0
+    """
+    popt, pcov = curve_fit(
+        f = lin_pow,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    a, xlim, r, y0 = popt
+    return a, xlim, r, y0
 
+####### exp lin lin #########
+def exp_lin_lin_scalar(x, y0, r, a, m, t1, t2) :
+    b= y0*math.exp(r*t1)-a*t1
+    p = (a-m)*t2+b
+    return y0*math.exp(r*x)*ind(x, -10**10, t1) + (a*x+b)*ind(x, t1, t2) + (m*x+p )*ind(x, t2, 10**10)
 
+exp_lin_lin = np.vectorize(exp_lin_lin_scalar)
+
+def expLinLin (x, y, p0, bounds = [0, 90000]) :
+    """
+    Returns y0, r, a, m, t1, t2
+    """
+    popt, pcov = curve_fit(
+        f = exp_lin_lin,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    y0, r, a, m, t1, t2 = popt
+    return y0, r, a, m, t1, t2
