@@ -235,3 +235,78 @@ def expLinLin (x, y, p0, bounds = [0, 90000]) :
     )
     y0, r, a, m, t1, t2 = popt
     return y0, r, a, m, t1, t2
+
+######## lin pow lin ############
+
+def lin_pow_lin_scalar(x, a,y0,r,m, x1, x2) :
+    b= y0*(x1**r)-a*x1
+    p = y0*(x2**r)-m*x2
+    return (a*x+b)*ind(x, -10**10, x1) + y0*(x**r)*ind(x, x1, x2) + (m*x+p)*ind(x, x2, 10**10)
+
+lin_pow_lin = np.vectorize(lin_pow_lin_scalar)
+
+def linPowLin (x, y, p0, bounds = [0, 90000]) :
+    """
+    Returns a,y0,r,m, x1, x2
+    """
+    popt, pcov = curve_fit(
+        f = lin_pow_lin,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    a,y0,r,m, x1, x2 = popt
+    return a,y0,r,m, x1, x2
+
+############ hyp lin lin ########### 
+
+def hyp_lin_lin_scalar(x, b,c,d,f,x1,x2) :
+    e = (b/(-x1+c)) - d*x1 
+    g = (d-f)*x2 + e
+    if x <= x1 : 
+        return (b/(c-x))*ind(x, -10**10, x1) 
+    elif x1 < x <= x2 :
+        return (d*x+e)
+    else : 
+        return (f*x+g)
+
+hyp_lin_lin = np.vectorize(hyp_lin_lin_scalar)
+
+def hypLinLin (x, y, p0, bounds = [0, 90000]) :
+    """
+    Returns b,c,d,f,x1,x2
+    """
+    popt, pcov = curve_fit(
+        f = hyp_lin_lin,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    b,c,d,f,x1,x2= popt
+    return b,c,d,f,x1,x2
+
+####### exp lin lin lin lin ######
+def expllll(x, y0, r, a,c,e,g,x1,x2,x3,x4) :
+    b = y0*math.exp(r*x1)-a*x1
+    d = (a-c)*x2+b
+    f = (c-e)*x3+d
+    h = (e-g)*x4+f 
+    return y0*exp(r*x)*ind(x, -10**10, x1) + (a*x+b)*ind(x, x1, x2)+(c*x+d)*ind(x, x2, x3)+ (e*x+f)*ind(x, x3, x4)+(g*x+h) * ind(x, x4, 10**10)
+
+expllll = np.vectorize(expllll)
+
+def expLLLL (x, y, p0, bounds = [-90000, 90000]) :
+    """
+    Returns y0, r, a,c,e,g,x1,x2,x3,x4
+    """
+    popt, pcov = curve_fit(
+        f = expllll,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    y0, r, a,c,e,g,x1,x2,x3,x4= popt
+    return y0, r, a,c,e,g,x1,x2,x3,x4
