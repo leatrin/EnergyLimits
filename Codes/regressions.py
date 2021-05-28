@@ -72,6 +72,7 @@ def logReg (x, y, Dy = None, bounds = [0, 90000]) :
     Returns K, dt, tm
     """
     K0, dt0, tm0 = initialLogParams(x,y)
+    
     popt, pcov = curve_fit(
         f = log_fun,       # model function
         xdata=x,   # x data
@@ -310,3 +311,55 @@ def expLLLL (x, y, p0, bounds = [-90000, 90000]) :
     )
     y0, r, a,c,e,g,x1,x2,x3,x4= popt
     return y0, r, a,c,e,g,x1,x2,x3,x4
+
+
+####### hyp lin lin lin lin ########
+
+def hypllllscalar(x, b,c,d,f,h,k,x1,x2, x3, x4) :
+    e = (b/(-x1+c)) - d*x1 
+    g = (d-f)*x2 + e
+    j= (f-h)*x3 + g
+    l = (h-k)*x4 +j
+    if x < x1 : 
+        return (b/(c-x))*ind(x, -10**10, x1) 
+    else :
+        return (d*x+e)*ind(x, x1,x2) +(f*x+g)*ind(x, x2, x3)+ (h*x+j)*ind(x, x3, x4) + (k*x+l)*ind(x, x4, 10**10)
+    
+hypllll = np.vectorize(hypllllscalar)
+
+def hypLLLL (x, y, p0, bounds = [-90000, 90000]) :
+    """
+    Returns b,c,d,f,h,k,x1,x2, x3, x4
+    """
+    popt, pcov = curve_fit(
+        f = hypllll,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    b,c,d,f,h,k,x1,x2, x3, x4 = popt
+    return b,c,d,f,h,k,x1,x2, x3, x4
+
+###### Lin lin lin lin  #####
+
+def llll(x, a,b, c, e, g, x1, x2, x3) :
+    d = (a-c)*x1 + b
+    f = (c-e)*x2 +d
+    h = (e-g)*x3 + f
+    return (a*x+b)*ind(x, -10**10, x1)+ (c*x+d)*ind(x, x1, x2)+ (e*x+f) *ind(x, x2, x3)+ (g*x+h)*ind(x, x3, 10**10)
+
+llll = np.vectorize(llll)
+def LLLL (x, y, p0, bounds = [-90000, 90000]) :
+    """
+    Returns a,b, c, e, g, x1, x2, x3
+    """
+    popt, pcov = curve_fit(
+        f = llll,       # model function
+        xdata=x,   # x data
+        ydata=y,   # y data
+        p0=p0,      # initial value of the parameters
+        bounds = bounds,
+    )
+    a,b, c, e, g, x1, x2, x3 = popt
+    return a,b, c, e, g, x1, x2, x3
