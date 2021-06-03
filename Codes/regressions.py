@@ -12,6 +12,8 @@ import math as math
 def l2_loss(y_real, y_predicted):
     l2_err = np.sqrt((y_real-y_predicted)**2)
     return np.sum(l2_err)
+
+
 ######### LINEAR MODEL #######################
 def lin_fun_scalar(x, y0 = 0, r = 1): 
     return y0 + r*x
