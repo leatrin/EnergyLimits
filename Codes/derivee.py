@@ -33,15 +33,15 @@ def growth_rate(x, y,s = 1, a = 1  ) :
 
     for n in range(0,s1) : 
         x_r.append(x_min+n)
-        rn= ((Y[n+s]-Y[n])/Y[n+s])*100
+        rn= (1/s)*((Y[n+s]-Y[n])/Y[n+s])*100
         r.append(rn)
     for n in range(s1, len(X)-s2) : 
         x_r.append(x_min+n)
-        rn= ((Y[n+s2]-Y[n-s1])/Y[n-s1])*100
+        rn= (1/s)*((Y[n+s2]-Y[n-s1])/Y[n-s1])*100
         r.append(rn)
     for n in range (len(X)-s2, len(X)) :
         x_r.append(x_min+n)
-        rn= ((Y[n]-Y[n-s])/Y[n-s])*100
+        rn= (1/s)*((Y[n]-Y[n-s])/Y[n-s])*100
         r.append(rn)
     # compute avg 
     for n in range(a1, len(x_r)-a2) : 

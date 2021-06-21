@@ -276,7 +276,7 @@ def hyp_lin_lin_scalar(x, b,c,d,f,x1,x2) :
 
 hyp_lin_lin = np.vectorize(hyp_lin_lin_scalar)
 
-def hypLinLin (x, y, p0, bounds = [0, 90000]) :
+def hypLinLin (x, y, p0, bounds = [0, 90000], maxfev = 1000) :
     """
     Returns b,c,d,f,x1,x2
     """
@@ -286,6 +286,7 @@ def hypLinLin (x, y, p0, bounds = [0, 90000]) :
         ydata=y,   # y data
         p0=p0,      # initial value of the parameters
         bounds = bounds,
+        maxfev=maxfev
     )
     b,c,d,f,x1,x2= popt
     return b,c,d,f,x1,x2
@@ -300,7 +301,7 @@ def expllll(x, y0, r, a,c,e,g,x1,x2,x3,x4) :
 
 expllll = np.vectorize(expllll)
 
-def expLLLL (x, y, p0, bounds = [-90000, 90000]) :
+def expLLLL (x, y, p0, bounds = [-90000, 90000], maxfev = 1000) :
     """
     Returns y0, r, a,c,e,g,x1,x2,x3,x4
     """
@@ -310,6 +311,7 @@ def expLLLL (x, y, p0, bounds = [-90000, 90000]) :
         ydata=y,   # y data
         p0=p0,      # initial value of the parameters
         bounds = bounds,
+        maxfev = maxfev
     )
     y0, r, a,c,e,g,x1,x2,x3,x4= popt
     return y0, r, a,c,e,g,x1,x2,x3,x4
