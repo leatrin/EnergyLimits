@@ -151,7 +151,7 @@ def initialSParams(G, E, deg = 6, step = 0.1) :
 
     return G_i, E_i, A, alpha_1, alpha_2, alpha_3
 
-def sReg(xdata, ydata, Dy=None,  bounds = [-350000, 350000]):
+def sReg(xdata, ydata, Dy=None,  bounds = [-350000, 350000], maxfev = 1000):
     G_i, E_i, A, a1, a2, a3= initialSParams(xdata, ydata, deg=6, step = 0.1)
     p0 = ( G_i, E_i, A, a1, a2, a3)
     print(p0)
@@ -161,7 +161,8 @@ def sReg(xdata, ydata, Dy=None,  bounds = [-350000, 350000]):
         ydata=ydata,   # y data
         p0=p0,      # initial value of the parameters
         bounds = bounds,
-        sigma=Dy
+        sigma=Dy, 
+        maxfev = maxfev
     )
     G,E, A, a1, a2, a3  = popt
 
@@ -169,7 +170,7 @@ def sReg(xdata, ydata, Dy=None,  bounds = [-350000, 350000]):
 
 ############# lin then exp ################
 def ind (x,a,b) : 
-    if x<=b and x>=a : 
+    if x<=b and x>a : 
         return 1
     else : 
         return 0
