@@ -1,0 +1,45 @@
+acier_electricite-tbyMW:
+	* From: O.Vidal's book
+	* Contains: t of material by MW for each technology
+
+energy:
+	* From: Our World In Data + https://histecon.fas.harvard.edu/energyhistory/energydata.html
+	* Contains: Primary energy consumption by locality
+
+energy-final:
+	* From: IEA (Sankey diagram), I reported the data 
+	* Contains: final and primary energy consumption for various countries since 1970
+
+energy-world:
+	* From: https://www.encyclopedie-energie.org/consommation-mondiale-denergie-1800-2000-les-resultats/
+	* Contains: Primary energy consumption per area, from 1800 to 2000 
+
+gdp-per-capita-maddison-2020:
+	* From: The Maddison Project
+	* Contains: GDP per capita since 0
+
+global-energy-substitution and world-energy:
+	* From: Our World In Data
+	* Contains: World Primary energy consumption since 1800 
+
+perspective-pib-OCDE:
+	* From: https://data.oecd.org/fr/gdp/previsions-du-pib-a-long-terme.htm
+	* Contains:GDP previsions by the OECD
+
+population: 
+	* From: Our World In Data
+	* Contains: Population data by area
+
+population-perspective-UNO:
+	* From: https://population.un.org/wpp/
+	* Contains: Population perspective by the UNO
+
+scenario_net_zero:
+	* From: IEA Net Zero 2050 report
+	* Contains: Energy mix in the NZE scenario
+
+world-gdp-over-the-last-two-millenia
+world-population-1750-2015-and-previsions
+world-total-final-consumption-by-source:
+	* From: Our world in Data
+	* Contains: World data 

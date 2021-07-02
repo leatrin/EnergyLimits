@@ -332,7 +332,7 @@ def hypllllscalar(x, b,c,d,f,h,k,x1,x2, x3, x4) :
     
 hypllll = np.vectorize(hypllllscalar)
 
-def hypLLLL (x, y, p0, bounds = [-90000, 90000]) :
+def hypLLLL (x, y, p0, bounds = [-90000, 90000], maxfev=120000) :
     """
     Returns b,c,d,f,h,k,x1,x2, x3, x4
     """
@@ -342,6 +342,7 @@ def hypLLLL (x, y, p0, bounds = [-90000, 90000]) :
         ydata=y,   # y data
         p0=p0,      # initial value of the parameters
         bounds = bounds,
+        maxfev=maxfev
     )
     b,c,d,f,h,k,x1,x2, x3, x4 = popt
     return b,c,d,f,h,k,x1,x2, x3, x4
